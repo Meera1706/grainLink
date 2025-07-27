@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Available Products</h2>
+
+{% for product in products %}
+<div class="product-card">
+    <h3>{{ product.name }}</h3>
+    <p>Price: ₹{{ product.price }}</p>
+    <p>Quantity: {{ product.quantity }}</p>
+    <p>Sold by: {{ product.farmer_ref.name }}</p>
+    
+    <form method="POST" action="{{ url_for('place_order', product_id=product.id) }}" class="order-form">
+        <input type="number" name="quantity" min="1" required>
+        <button type="submit" class="btn">Order Now</button>
+    </form>
+    
+    <a href="{{ url_for('conversation', user_id=product.farmer_ref.id) }}" class="btn btn-primary">
+        Message Farmer
+    </a>
+</div>
+{% endfor %}
+{% endblock %}

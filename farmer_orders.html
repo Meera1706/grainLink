@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Orders</h2>
+
+{% if orders %}
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Ordered By</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.vendor.name }}</td>
+            <td>{{ order.order_date.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                {% if order.status == 'pending' %}
+                <a href="{{ url_for('update_order', order_id=order.id, status='confirmed') }}" class="btn btn-sm">
+                    Confirm
+                </a>
+                {% endif %}
+                <a href="{{ url_for('conversation', user_id=order.vendor.id) }}" class="btn btn-sm btn-primary">
+                    Message
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No orders yet.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>GrainLink Marketplace</h2>
+
+<div style="background: #f9f9f9; padding: 15px; margin: 20px 0;">
+    <h3>Add Your Produce</h3>
+    <form method="POST" action="/add_product">
+        <div>
+            <label>Product Name:</label><br>
+            <input type="text" name="name" required>
+        </div>
+        <div>
+            <label>Price (₹):</label><br>
+            <input type="number" step="0.01" name="price" required>
+        </div>
+        <div>
+            <label>Quantity:</label><br>
+            <input type="text" name="quantity" required>
+        </div>
+        <button type="submit" class="btn">Add Product</button>
+    </form>
+</div>
+
+<h3>Available Products</h3>
+{% for product in products %}
+<div class="product">
+    <h4>{{ product.name }}</h4>
+    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+    <p><strong>Quantity:</strong> {{ product.quantity }}</p>
+    <small>Farmer ID: {{ product.farmer_id }}</small>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GrainLink</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        nav { 
+            background: #4CAF50; 
+            padding: 15px;
+            color: white;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+        }
+        .nav-brand {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .nav-links { 
+            display: flex; 
+            gap: 20px;
+            align-items: center;
+        }
+        nav a { 
+            color: white; 
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        nav a:hover { 
+            background: rgba(255,255,255,0.2);
+        }
+        .user-info { 
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .alert {
+            padding: 12px 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-left: 5px solid;
+        }
+        .alert-error { 
+            background: #ffebee; 
+            border-color: #f44336;
+            color: #d32f2f;
+        }
+        .alert-success { 
+            background: #e8f5e9; 
+            border-color: #4CAF50;
+            color: #2e7d32;
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #3e8e41;
+        }
+        .btn-primary {
+            background: #2196F3;
+        }
+        .btn-primary:hover {
+            background: #0b7dda;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .message-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+        }
+
+        /* Messaging System Styles */
+        .messages-container, .conversation-container, .find-user-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .messages-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .conversations-list, .user-list {
+            margin-top: 20px;
+        }
+        .conversation, .user-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+        .conversation:hover, .user-card:hover {
+            background-color: #f5f5f5;
+        }
+        .user-info h4 {
+            margin: 0;
+            color: #4CAF50;
+        }
+        .message-preview {
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+        .message-preview p {
+            margin: 0;
+            color: #666;
+        }
+        .message-preview small {
+            color: #999;
+        }
+        .unread-badge {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .messages-list {
+            margin-bottom: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .message {
+            margin-bottom: 15px;
+            clear: both;
+        }
+        .message.sent {
+            float: right;
+            text-align: right;
+        }
+        .message.received {
+            float: left;
+            text-align: left;
+        }
+        .message-content {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 70%;
+        }
+        .message.sent .message-content {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .message.received .message-content {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .message small {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: #777;
+        }
+        .message-form {
+            margin-top: 20px;
+        }
+        .message-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: none;
+            min-height: 100px;
+            margin-bottom: 10px;
+        }
+
+        /* Product and Order Styles */
+        .product-card, .order-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .product-card h3, .order-card h3 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        .order-form {
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-brand">GrainLink</a>
+        <div class="nav-links">
+            {% if current_user.is_authenticated %}
+                <span class="user-info">{{ current_user.name }} ({{ 'Farmer' if current_user.is_farmer else 'Vendor' }})</span>
+                <a href="/dashboard">Dashboard</a>
+                <a href="{{ url_for('messages') }}">
+                    Messages
+                    {% if unread_messages_count > 0 %}
+                    <span class="message-count">{{ unread_messages_count }}</span>
+                    {% endif %}
+                </a>
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/register">Register</a>
+                <a href="/login">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="margin-top: 50px; text-align: center; color: #777;">
+        <p>GrainLink &copy; {{ now.year }} - Connecting Farmers and Vendors</p>
+    </footer>
+</body>
+</html>

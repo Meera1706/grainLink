@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="conversation-container">
+    <h2>Conversation with {{ other_user.name }}</h2>
+    <a href="{{ url_for('messages') }}" class="btn btn-secondary">← Back to messages</a>
+    
+    <div class="messages-list">
+        {% for message in messages %}
+        <div class="message {% if message.sender_id == current_user.id %}sent{% else %}received{% endif %}">
+            <div class="message-content">
+                <p>{{ message.content }}</p>
+                <small>
+                    {{ message.timestamp.strftime('%b %d, %H:%M') }}
+                    {% if message.sender_id == current_user.id %}
+                        • {{ 'Read' if message.is_read else 'Delivered' }}
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <form method="POST" class="message-form">
+        <textarea name="content" placeholder="Type your message..." required></textarea>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="find-user-container">
+    <h2>Find User to Message</h2>
+    
+    <div class="user-list">
+        {% for user in users %}
+        <div class="user-card">
+            <div class="user-info">
+                <h4>{{ user.name }}</h4>
+                <p>{{ user.email }}</p>
+                <p>{{ 'Farmer' if user.is_farmer else 'Vendor' }}</p>
+            </div>
+            <a href="{{ url_for('conversation', user_id=user.id) }}" class="btn btn-primary">
+                Message
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
